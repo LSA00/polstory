@@ -1,5 +1,9 @@
 package project.app.polstory.repository;
 
-public interface BoardRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import project.app.polstory.entity.Board;
+
+public interface BoardRepository extends JpaRepository<Board , Long> {
+
 
 }
