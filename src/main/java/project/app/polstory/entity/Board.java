@@ -6,40 +6,38 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.sql.Date;
 
 @Entity
 @Getter
 @ToString
 @NoArgsConstructor
-@SequenceGenerator(name = "BOARDIDX_SEQ_GENERATOR" , sequenceName = "BOARDIDX_SEQ", initialValue = 1)
+@SequenceGenerator(name = "BOARDIDX_SEQ_GENERATOR" , sequenceName = "BOARDIDX_SEQ")
 @Table(name = "board")
-public class Board {
+public class Board extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long boardIdx;
 
-    //@JoinColumn(name = "memIdx")
-    private Long memIdx;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEMBER_ID")
+    private User user;
     private String boardContent;
     private String boardTitle;
     private String boardTags;
-    private Date boardDate;
     private Boolean boardShow;
     private int cateNum;
 
     @Builder
     public Board(
-            Long memIdx, Long boardIdx, String boardContent,
-            String boardTitle , String boardTags, Boolean boardShow, int cateNum, Date boardDate){
+            User user, Long boardIdx, String boardContent,
+            String boardTitle , String boardTags, boolean boardShow, int cateNum){
         this.boardContent = boardContent;
         this.boardTags = boardTags;
-        this.boardDate = boardDate;
         this.boardShow = boardShow;
         this.cateNum = cateNum;
         this.boardTitle = boardTitle;
-        this.memIdx = memIdx;
+        this.user = user;
         this.boardIdx = boardIdx;
     }
 
