@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import project.app.polstory.service.MemberService;
+import project.app.polstory.service.UserService;
 
 @Controller
 @RequestMapping("/user")
@@ -12,6 +12,6 @@ import project.app.polstory.service.MemberService;
 public class UserController {
 
     @Autowired
-    private final MemberService memberService;
+    private final UserService userService;
 
 }

@@ -1,11 +1,12 @@
 package project.app.polstory.service;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
 import project.app.polstory.dto.UserDTO;
 import project.app.polstory.entity.User;
 
-public interface MemberService {
+public interface UserService extends UserDetailsService {
 
-    void MemberSave(UserDTO dto);
+    void UserSave(UserDTO dto);
 
     default User dtoToEntity(UserDTO dto){
        User entity = User.builder()
@@ -27,7 +28,7 @@ public interface MemberService {
                 .modDate(entity.getModDate())
                 .userEmail(entity.getUserEmail())
                 .userIdx(entity.getUserIdx())
-                .userName(entity.getUserName())
+                .userName(entity.getUsername())
                 .userNick(entity.getUserNick())
                 .userPassword(entity.getUserPassword())
                 .build();
