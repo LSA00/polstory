@@ -1,5 +1,6 @@
 package project.app.polstory.entity;
 
+import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,10 +25,17 @@ public class User extends BaseEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(unique = true)
     private Long userIdx;
+    @Column(unique = true)
+    @NotNull
     private String userId;
+    @Column(unique = true)
+    @NotNull
     private String userEmail;
+    @NotNull
     private String userPassword;
+    @NotNull
     private String userName;
     private String userNick;
 

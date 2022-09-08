@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -20,18 +21,20 @@ public class Board extends BaseEntity{
     private Long boardIdx;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumn(name = "USER_ID")
     private User user;
     private String boardContent;
     private String boardTitle;
     private String boardTags;
+    @ColumnDefault("1")
     private Boolean boardShow;
-    private int cateNum;
+    @ColumnDefault("0")
+    private Integer cateNum;
 
     @Builder
     public Board(
             User user, Long boardIdx, String boardContent,
-            String boardTitle , String boardTags, boolean boardShow, int cateNum){
+            String boardTitle , String boardTags, boolean boardShow, Integer cateNum){
         this.boardContent = boardContent;
         this.boardTags = boardTags;
         this.boardShow = boardShow;
