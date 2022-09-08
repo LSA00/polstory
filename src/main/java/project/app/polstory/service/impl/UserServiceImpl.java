@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
         if(user.isPresent()) {
             User preUser = user.get();
 
-            User authUser = User.builder()
+            return User.builder()
                     .userPassword(preUser.getPassword())
                     .userEmail(preUser.getUserEmail())
                     .userNick(preUser.getUserNick())
@@ -42,8 +42,6 @@ public class UserServiceImpl implements UserService {
                     .userId(preUser.getUserId())
                     .userType(preUser.getUserType())
                     .build();
-
-            return authUser;
         }
 
         return null;

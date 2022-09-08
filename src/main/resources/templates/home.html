@@ -14,7 +14,6 @@
 <p sec:authorize="hasRole('ADMIN')">[이 부분은 운영자(ADMIN)에게만 나타남]</p>
 <p sec:authorize="hasRole('USER')">[이 부분은 손님(USER)에게만 나타남]</p>
 <p sec:authorize="isAuthenticated()">[이 부분은 로그인한 사용자(isAuthenticated) 모두에게 나타남]<p>
-    인증받은 사람 :  <div sec:authentication="name"></div>
-인증받은 사람의 권한 :  <div sec:authentication="principal.authorities"></div>
+
 </body>
 </html>

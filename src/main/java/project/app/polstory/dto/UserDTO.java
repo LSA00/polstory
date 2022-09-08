@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import project.app.polstory.security.Roles;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +20,7 @@ public class UserDTO {
     private String userPassword;
     private String userName;
     private String userNick;
+    private Roles userType;
     private LocalDateTime regDate, modDate;
 
 }

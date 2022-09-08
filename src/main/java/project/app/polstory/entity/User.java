@@ -19,37 +19,49 @@ import java.util.List;
 @Getter
 @ToString
 @NoArgsConstructor
-@SequenceGenerator(name = "USERIDX_SEQ_GENERATOR" , sequenceName = "USERIDX_SEQ")
+@SequenceGenerator(name = "USER_IDX_GENERATOR" , sequenceName = "USER_SEQ", allocationSize = 1)
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "USER_IDX_GENERATOR"
+    )
     @Column(unique = true)
     private Long userIdx;
-    @Column(unique = true)
+    @Column(name = "USER_ID",unique = true)
     @NotNull
     private String userId;
     @Column(unique = true)
     @NotNull
     private String userEmail;
+    @Column
     @NotNull
     private String userPassword;
+    @Column
     @NotNull
     private String userName;
+    @Column
     private String userNick;
 
     @Enumerated(EnumType.STRING)
+    @Column
     private Roles userType;
 
     @OneToMany(mappedBy = "user")
-    List<Board> boardList = new ArrayList<Board>();
+    @ToString.Exclude
+    List<Board> boardList = new ArrayList<>();
+
+    public void setBoardList(List<Board> boardList) {
+        this.boardList = boardList;
+    }
 
 
     @Builder
     public User(
             Long userIdx, String userId, String userEmail, String userPassword,
-            String userName, String userNick , Roles userType) {
+            String userName, String userNick ,Roles userType) {
         this.userEmail = userEmail;
         this.userId = userId;
         this.userIdx = userIdx;
@@ -64,7 +76,7 @@ public class User extends BaseEntity implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
-        for( String userType : userType.getTitle().split(",")){
+        for( String userType : userType.getAuthority().split(",")){
             authorities.add(new SimpleGrantedAuthority(userType));
         }
         return authorities;

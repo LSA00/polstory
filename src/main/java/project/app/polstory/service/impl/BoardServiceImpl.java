@@ -56,8 +56,9 @@ public class BoardServiceImpl implements BoardService {
         String keyword = requestDTO.getKeyword();
 
         BooleanExpression expression = qBoard.boardIdx.gt(0L);
+        BooleanExpression show = qBoard.boardShow.eq(true);
 
-        booleanBuilder.and(expression);
+        booleanBuilder.and(expression).and(show);
 
         if(type == null || type.trim().length() == 0){
 
