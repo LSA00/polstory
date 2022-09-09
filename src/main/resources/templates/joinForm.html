@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>회원가입페이지</title>
+</head>
+<body>
+<h1> join page</h1>
+<hr/>
+<form action="/join" method="post">
+  <input type="hidden" name="userType" placeholder="User" value="GUEST">
+  <input type="text" name="userId" placeholder="Username"><br/>
+  <input type="password" name="userPassword" placeholder="Password"><br/>
+  <input type="text" name="userEmail" placeholder="Email"><br/>
+  <input type="text" name="userNick" placeholder="Nick"><br/>
+  <input type="text" name="userName" placeholder="Name">
+  <button>join</button>
+</form>
+<a href="/joinForm">회원가입</a>
+</body>
+</html>

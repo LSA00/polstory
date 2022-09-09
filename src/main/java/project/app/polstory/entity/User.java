@@ -36,26 +36,18 @@ public class User extends BaseEntity implements UserDetails {
     @Column(unique = true)
     @NotNull
     private String userEmail;
-    @Column
     @NotNull
     private String userPassword;
-    @Column
     @NotNull
     private String userName;
-    @Column
     private String userNick;
 
     @Enumerated(EnumType.STRING)
-    @Column
     private Roles userType;
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     List<Board> boardList = new ArrayList<>();
-
-    public void setBoardList(List<Board> boardList) {
-        this.boardList = boardList;
-    }
 
 
     @Builder

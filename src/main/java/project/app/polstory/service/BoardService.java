@@ -20,7 +20,7 @@ public interface BoardService {
                 .boardShow(dto.getBoardShow())
                 .boardTags(dto.getBoardTags())
                 .boardTitle(dto.getBoardTitle())
-                .cateNum(dto.getCateNum())
+                .category(dto.getCategory())
                 .user(dto.getUser())
                 .build();
 
@@ -34,7 +34,7 @@ public interface BoardService {
                 .boardShow(entity.getBoardShow())
                 .boardTags(entity.getBoardTags())
                 .boardTitle(entity.getBoardTitle())
-                .cateNum(entity.getCateNum())
+                .category(entity.getCategory())
                 .user(entity.getUser())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())

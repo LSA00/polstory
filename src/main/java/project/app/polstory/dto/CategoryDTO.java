@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import project.app.polstory.entity.Category;
 import project.app.polstory.entity.User;
 
 import java.time.LocalDateTime;
@@ -13,15 +12,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-public class BoardDTO {
-
-    private Long boardIdx;
+public class CategoryDTO {
+    private Long cateNum;
     private User user;
-    private String boardContent;
-    private String boardTitle;
-    private String boardTags;
-    private Boolean boardShow;
-    private Category category;
+    private String cateName;
     private LocalDateTime regDate, modDate;
-
 }

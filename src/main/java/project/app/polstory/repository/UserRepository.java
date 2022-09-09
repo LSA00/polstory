@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredicateExecutor<User> {
 
-    Optional<User> findByUserId(String userId);
+    public User findByUserId(String username);
 }

@@ -1,21 +1,21 @@
 package project.app.polstory.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.app.polstory.dto.UserDTO;
 import project.app.polstory.entity.User;
 import project.app.polstory.repository.UserRepository;
 import project.app.polstory.service.UserService;
 
-import java.util.Optional;
-
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public void UserSave(UserDTO dto){
 
@@ -25,25 +25,32 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+    private User dtoToEntity(UserDTO dto){
 
-        Optional<User> user = userRepository.findByUserId(userId);
-
-        if(user.isPresent()) {
-            User preUser = user.get();
-
-            return User.builder()
-                    .userPassword(preUser.getPassword())
-                    .userEmail(preUser.getUserEmail())
-                    .userNick(preUser.getUserNick())
-                    .userName(preUser.getUsername())
-                    .userIdx(preUser.getUserIdx())
-                    .userId(preUser.getUserId())
-                    .userType(preUser.getUserType())
-                    .build();
-        }
-
-        return null;
+        return User.builder()
+                .userNick(dto.getUserNick())
+                .userId(dto.getUserId())
+                .userPassword(passwordEncoder.encode(dto.getUserPassword()))
+                .userEmail(dto.getUserEmail())
+                .userName(dto.getUserName())
+                .userIdx(dto.getUserIdx())
+                .userType(dto.getUserType())
+                .build();
     }
+
+    private UserDTO entityToDTO(User entity){
+
+        return UserDTO.builder()
+                .userId(entity.getUserId())
+                .regDate(entity.getRegDate())
+                .modDate(entity.getModDate())
+                .userEmail(entity.getUserEmail())
+                .userIdx(entity.getUserIdx())
+                .userName(entity.getUsername())
+                .userNick(entity.getUserNick())
+                .userPassword(entity.getUserPassword())
+                .userType(entity.getUserType())
+                .build();
+    }
+
 }
