@@ -31,7 +31,7 @@ public class User extends BaseEntity{
     @Column(length = 20)
     @NotNull
     private String username; //아이디
-    @Column(length = 20)
+    @Column(length = 100)
     @NotNull
     private String password; //비밀번호
     @NotNull
@@ -47,8 +47,9 @@ public class User extends BaseEntity{
     @Builder
     public User(
             Role role, String username , String password ,
-            String email , String nickname
+            String email , String nickname , Long id
     ){
+        this.id = id;
         this.email = email;
         this.role = role;
         this.password = password;

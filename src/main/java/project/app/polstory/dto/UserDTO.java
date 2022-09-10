@@ -1,19 +1,17 @@
 package project.app.polstory.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import project.app.polstory.entity.Board;
 import project.app.polstory.entity.Category;
 import project.app.polstory.security.Role;
 
 import java.util.List;
 
-@Getter
 @AllArgsConstructor
 @Builder
 @ToString
+@Getter
+@Setter
 public class UserDTO {
     private Long id;
     private Role role;
@@ -21,6 +19,8 @@ public class UserDTO {
     private String password;
     private String nickname;
     private String email;
+    @ToString.Exclude
     private List<Board> board;
+    @ToString.Exclude
     private List<Category> category;
 }

@@ -17,15 +17,30 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     @Override
     public void userSave(UserDTO dto) {
         User user = dtoToEntity(dto);
         userRepository.save(user);
     }
 
+    public UserDTO findUser(Long id){
+       User user = userRepository.findById(id).orElseThrow(()->{
+           return new IllegalArgumentException("아이디가 없습니다." + id);
+       });
+
+       return UserDTO.builder()
+               .nickname(user.getNickname())
+               .id(user.getId())
+               .password(user.getPassword())
+               .username(user.getUsername())
+               .role(user.getRole())
+               .email(user.getEmail())
+               .build();
+    }
+
     private User dtoToEntity(UserDTO dto){
         return User.builder()
+                .id(dto.getId())
                 .role(dto.getRole())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .email(dto.getEmail())
