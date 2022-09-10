@@ -1,6 +1,5 @@
 package project.app.polstory.entity;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,25 +17,13 @@ public class Files extends BaseEntity{
             strategy = GenerationType.SEQUENCE,
             generator = "FILE_IDX_GENERATOR"
     )
-    private long fileIdx;
-
-    private Long boardIdx;
+    private long fileId;
     private String orgName;
     private String stdName;
-    private String imageSize;
-    private Boolean del;
+    private boolean del;
 
-    @Builder
-    public Files(
-            Long fileIdx , Long boardIdx , String orgName ,
-            String stdName , String imageSize , Boolean del
-    ){
-        this.boardIdx = boardIdx;
-        this.del = del;
-        this.fileIdx = fileIdx;
-        this.orgName = orgName;
-        this.stdName = stdName;
-        this.imageSize = imageSize;
-    }
+    @ManyToOne(fetch = FetchType.LAZY) //Many = files , one = board
+    @JoinColumn(name = "BOARD_ID")
+    private Board board;
 
 }

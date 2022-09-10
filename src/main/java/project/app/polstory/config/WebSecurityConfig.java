@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import project.app.polstory.security.Roles;
+import project.app.polstory.security.Role;
 
 @Configuration
 @EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터 체인에 등록됨
@@ -31,16 +31,14 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/guest/**").authenticated()
-                .antMatchers("/user/**").hasAnyRole(Roles.USER.getAuthority(),Roles.ADMIN.getAuthority())
-                .antMatchers("/admin/**").hasRole(Roles.ADMIN.getAuthority())
+                .antMatchers("/user/**").hasAnyRole(Role.USER.getAuthority(),Role.ADMIN.getAuthority())
+                .antMatchers("/admin/**").hasRole(Role.ADMIN.getAuthority())
                 .antMatchers("/**").permitAll()
                 .and()
         //로그인 페이지 설정
                 .formLogin()
                 .loginPage("/loginForm")
                 .loginProcessingUrl("/login")
-                .usernameParameter("userId")
-                .passwordParameter("userPassword")
                 .defaultSuccessUrl("/");
 
         return http.build();

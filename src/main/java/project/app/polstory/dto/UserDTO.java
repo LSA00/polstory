@@ -4,23 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import project.app.polstory.security.Roles;
+import project.app.polstory.entity.Board;
+import project.app.polstory.entity.Category;
+import project.app.polstory.security.Role;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
 @Builder
 @ToString
 public class UserDTO {
-
-    private Long userIdx;
-    private String userId;
-    private String userEmail;
-    private String userPassword;
-    private String userName;
-    private String userNick;
-    private Roles userType;
-    private LocalDateTime regDate, modDate;
-
+    private Long id;
+    private Role role;
+    private String username;
+    private String password;
+    private String nickname;
+    private String email;
+    private List<Board> board;
+    private List<Category> category;
 }

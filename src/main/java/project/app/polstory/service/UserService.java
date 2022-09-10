@@ -4,7 +4,5 @@ import project.app.polstory.dto.UserDTO;
 
 public interface UserService {
 
-    void UserSave(UserDTO dto);
-
-
+    void userSave(UserDTO dto);
 }

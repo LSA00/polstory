@@ -4,7 +4,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import project.app.polstory.entity.User;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 //시큐리티가 /login 주소 요청이 오면 낚아채서 로그인을 진행시킨다.
@@ -16,53 +15,38 @@ public class PrincipalDetails implements UserDetails {
 
     private User user; //콤포지션
 
-    public PrincipalDetails(User user){
-        this.user = user;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        Collection<GrantedAuthority> collect = new ArrayList<>();
-
-        collect.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return user.getUserType().getAuthority();
-            }
-        });
-
-        return collect;
+        return null;
     }
 
     @Override
     public String getPassword() {
-        return user.getUserPassword();
+        return null;
     }
 
     @Override
     public String getUsername() {
-        return user.getUserId();
+        return null;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isEnabled() {
-        //휴면계정 전환시 사용 할 수 있음
-        return true;
+        return false;
     }
 }

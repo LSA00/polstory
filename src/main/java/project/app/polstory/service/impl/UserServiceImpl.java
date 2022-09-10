@@ -17,40 +17,20 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void UserSave(UserDTO dto){
 
-        User entity = dtoToEntity(dto);
-
-        userRepository.save(entity);
-
+    @Override
+    public void userSave(UserDTO dto) {
+        User user = dtoToEntity(dto);
+        userRepository.save(user);
     }
 
     private User dtoToEntity(UserDTO dto){
-
         return User.builder()
-                .userNick(dto.getUserNick())
-                .userId(dto.getUserId())
-                .userPassword(passwordEncoder.encode(dto.getUserPassword()))
-                .userEmail(dto.getUserEmail())
-                .userName(dto.getUserName())
-                .userIdx(dto.getUserIdx())
-                .userType(dto.getUserType())
+                .role(dto.getRole())
+                .password(passwordEncoder.encode(dto.getPassword()))
+                .email(dto.getEmail())
+                .username(dto.getUsername())
+                .nickname(dto.getNickname())
                 .build();
     }
-
-    private UserDTO entityToDTO(User entity){
-
-        return UserDTO.builder()
-                .userId(entity.getUserId())
-                .regDate(entity.getRegDate())
-                .modDate(entity.getModDate())
-                .userEmail(entity.getUserEmail())
-                .userIdx(entity.getUserIdx())
-                .userName(entity.getUsername())
-                .userNick(entity.getUserNick())
-                .userPassword(entity.getUserPassword())
-                .userType(entity.getUserType())
-                .build();
-    }
-
 }

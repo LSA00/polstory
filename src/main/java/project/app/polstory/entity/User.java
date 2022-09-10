@@ -5,102 +5,55 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import project.app.polstory.security.Roles;
+import project.app.polstory.security.Role;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-@Entity
 @Getter
 @ToString
 @NoArgsConstructor
-@SequenceGenerator(name = "USER_IDX_GENERATOR" , sequenceName = "USER_SEQ", allocationSize = 1)
-@Table(name = "users")
-public class User extends BaseEntity implements UserDetails {
+@SequenceGenerator(name = "USER_IDX_GENERATOR" , sequenceName = "USER_SEQ", allocationSize = 1) // 시퀀스 생성
+@Table(name = "users") // 테이블 네임 선언
+@Entity // 엔티티 선언
+public class User extends BaseEntity{
 
-    @Id
+    @Id //PRIMARY_KEY
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "USER_IDX_GENERATOR"
-    )
-    @Column(unique = true)
-    private Long userIdx;
-    @Column(name = "USER_ID",unique = true)
-    @NotNull
-    private String userId;
-    @Column(unique = true)
-    @NotNull
-    private String userEmail;
-    @NotNull
-    private String userPassword;
-    @NotNull
-    private String userName;
-    private String userNick;
-
+    ) // 위에서 정의한 SEQ 를 사용하겠다.
+    @Column(name = "USER_ID") // 컬럼의 이름
+    private Long id; // 회원 번호
+    //@ColumnDefault("'ROLE_GUEST'")
     @Enumerated(EnumType.STRING)
-    private Roles userType;
-
-    @OneToMany(mappedBy = "user")
+    private Role role; // 권한부여
+    @Column(length = 20)
+    @NotNull
+    private String username; //아이디
+    @Column(length = 20)
+    @NotNull
+    private String password; //비밀번호
+    @NotNull
+    private String email; //이메일
+    private String nickname; //등록 할 수 있는 닉네임
     @ToString.Exclude
-    List<Board> boardList = new ArrayList<>();
-
+    @OneToMany(mappedBy = "user") //mappedBy = 연관관계의 주인이 아니다 = 나는 FK가 아니니까 DB에 컬럼 만들지 마.
+    private List<Board> board;
+    @ToString.Exclude
+    @OneToMany(mappedBy = "user") //mappedBy = 연관관계의 주인이 아니다 = 나는 FK가 아니니까 DB에 컬럼 만들지 마. user = 필드의 이름
+    private List<Category> category;
 
     @Builder
     public User(
-            Long userIdx, String userId, String userEmail, String userPassword,
-            String userName, String userNick ,Roles userType) {
-        this.userEmail = userEmail;
-        this.userId = userId;
-        this.userIdx = userIdx;
-        this.userPassword = userPassword;
-        this.userName = userName;
-        this.userNick = userNick;
-        this.userType = userType;
-
+            Role role, String username , String password ,
+            String email , String nickname
+    ){
+        this.email = email;
+        this.role = role;
+        this.password = password;
+        this.nickname = nickname;
+        this.username = username;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-
-        for( String userType : userType.getAuthority().split(",")){
-            authorities.add(new SimpleGrantedAuthority(userType));
-        }
-        return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return this.getUserPassword();
-    }
-
-    @Override
-    public String getUsername() {
-        return this.getUserId();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
