@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import project.app.polstory.entity.User;
 import project.app.polstory.repository.UserRepository;
 
 //시큐리티 설정에서 loginProcessingURL
@@ -15,8 +16,12 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    //스프링이 로그인 요청을 가로챌 때 , username , password 변수 2개를 가로챈다.
+    // password 부분은 알아서 처리하기 때문에 username이 DB에 있는지 확인해줘야함.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        User principal = userRepository.findByUsername(username)
+                .orElseThrow(()-> new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다. : " + username));
+        return new PrincipalDetails(principal); //시큐리티 세션에 유저 정보가 저장됨.
     }
 }

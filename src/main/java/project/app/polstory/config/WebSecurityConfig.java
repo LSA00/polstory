@@ -1,18 +1,24 @@
 package project.app.polstory.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import project.app.polstory.auth.PrincipalDetailsService;
 import project.app.polstory.security.Role;
 
-@Configuration
+@Configuration //빈 등록 (IoC 관리)
 @EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터 체인에 등록됨
+@EnableGlobalMethodSecurity(prePostEnabled = true) //특정 주소로 접근을 하면 권한 및 인증을 미리 체크.
 public class WebSecurityConfig {
 
     //해당 메서드의 리턴되는 오브젝트를 IoC로 등록해준다.
@@ -20,6 +26,9 @@ public class WebSecurityConfig {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+    @Autowired
+    private PrincipalDetailsService principalDetailsService;
 
     @Bean //부여된 권한에 따라서 접근 가능한 URL 설정.
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -34,7 +43,7 @@ public class WebSecurityConfig {
                 .antMatchers("/user/**").hasAnyRole(Role.USER.getAuthority(),Role.ADMIN.getAuthority())
                 .antMatchers("/admin/**").hasRole(Role.ADMIN.getAuthority())
                 .antMatchers("/**").permitAll()
-                .and()
+              .and()
         //로그인 페이지 설정
                 .formLogin()
                 .loginPage("/loginForm")
@@ -48,7 +57,16 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer WebSecurityCustomizer () throws Exception {
         //권한 없이 접근 가능한 파일 설정
-        return (web) -> web.ignoring().antMatchers("/static/js/**","/static/css/**","/static/img/**","/static/frontend/**");
+        return (web) -> web.ignoring().antMatchers("/static/js/**","/static/css/**","/static/img/**");
+    }
+
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(principalDetailsService)
+                .passwordEncoder(passwordEncoder())
+                .and()
+                .build();
     }
 
 }

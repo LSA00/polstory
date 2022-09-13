@@ -3,10 +3,13 @@ package project.app.polstory.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.app.polstory.dto.UserDTO;
 import project.app.polstory.entity.User;
 import project.app.polstory.repository.UserRepository;
+import project.app.polstory.security.Role;
 import project.app.polstory.service.UserService;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,7 +21,10 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public void userSave(UserDTO dto) {
+    @Transactional
+    public void saveUser(UserDTO dto) {
+        dto.setRole(Role.GUEST); //초기 Role 세팅
+        dto.setPassword(passwordEncoder.encode(dto.getPassword())); //비밀번호 해쉬화
         User user = dtoToEntity(dto);
         userRepository.save(user);
     }
@@ -42,10 +48,15 @@ public class UserServiceImpl implements UserService {
         return User.builder()
                 .id(dto.getId())
                 .role(dto.getRole())
-                .password(passwordEncoder.encode(dto.getPassword()))
+                .password(dto.getPassword())
                 .email(dto.getEmail())
                 .username(dto.getUsername())
                 .nickname(dto.getNickname())
                 .build();
+    }
+
+    private UserDTO entityToDto(User entity){
+
+        return UserDTO.builder().build();
     }
 }

@@ -61,7 +61,7 @@ public class Board extends BaseEntity{
 
     @Builder
     public Board(
-            String title , User user , String content , int count ,
+            String title , User user , String content , int count , Long boardId,
             String tags , boolean show , boolean del , Category category
     ){
         this.category = category;
@@ -72,6 +72,7 @@ public class Board extends BaseEntity{
         this.tags = tags;
         this.title = title;
         this.user = user;
+        this.boardId = boardId;
     }
 
 }

@@ -11,8 +11,15 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry){
+        //기본 Url
         registry.addViewController("/").setViewName("home");
         registry.addViewController("/home").setViewName("home");
+
+        //로그인 페이지
+        registry.addViewController("/loginForm").setViewName("loginForm");
+
+        //회원가입 페이지
+        registry.addViewController("/joinForm").setViewName("joinForm");
     }
 
     @Bean
