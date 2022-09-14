@@ -37,6 +37,8 @@ public class User extends BaseEntity{
     @NotNull
     private String email; //이메일
     private String nickname; //등록 할 수 있는 닉네임
+    private String provider;
+    private String providerId;
     @ToString.Exclude
     @OneToMany(mappedBy = "user") //mappedBy = 연관관계의 주인이 아니다 = 나는 FK가 아니니까 DB에 컬럼 만들지 마.
     private List<Board> board;
@@ -47,7 +49,8 @@ public class User extends BaseEntity{
     @Builder
     public User(
             Role role, String username , String password ,
-            String email , String nickname , Long id
+            String email , String nickname , Long id,
+            String providerId , String provider
     ){
         this.id = id;
         this.email = email;
@@ -55,6 +58,8 @@ public class User extends BaseEntity{
         this.password = password;
         this.nickname = nickname;
         this.username = username;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
 }

@@ -1,5 +1,6 @@
 package project.app.polstory.auth;
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import project.app.polstory.entity.User;
@@ -11,7 +12,10 @@ import java.util.Collection;
 //로그인 진행이 완료가 되면 시큐리티 session을 만든다.(Security ContextHolder)
 //시큐리티 세션에 들어갈 수 있는 오브젝트는 정해져있음. (Authentication 타입의 객체)
 //user 오브젝트 타입 => userDetails 타입 객체
+@Data
 public class PrincipalDetails implements UserDetails {
+
+    private static final long serialVersionUID = 1L;
 
     private final User user; //콤포지션
 

@@ -34,14 +34,7 @@ public class UserServiceImpl implements UserService {
            return new IllegalArgumentException("아이디가 없습니다." + id);
        });
 
-       return UserDTO.builder()
-               .nickname(user.getNickname())
-               .id(user.getId())
-               .password(user.getPassword())
-               .username(user.getUsername())
-               .role(user.getRole())
-               .email(user.getEmail())
-               .build();
+       return entityToDto(user);
     }
 
     private User dtoToEntity(UserDTO dto){
@@ -52,11 +45,22 @@ public class UserServiceImpl implements UserService {
                 .email(dto.getEmail())
                 .username(dto.getUsername())
                 .nickname(dto.getNickname())
+                .provider(dto.getProvider())
+                .providerId(dto.getProviderId())
                 .build();
     }
 
     private UserDTO entityToDto(User entity){
 
-        return UserDTO.builder().build();
+        return UserDTO.builder()
+                .nickname(entity.getNickname())
+                .id(entity.getId())
+                .password(entity.getPassword())
+                .username(entity.getUsername())
+                .role(entity.getRole())
+                .email(entity.getEmail())
+                .provider(entity.getProvider())
+                .providerId(entity.getProviderId())
+                .build();
     }
 }

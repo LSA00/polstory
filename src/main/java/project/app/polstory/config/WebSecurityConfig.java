@@ -1,5 +1,6 @@
 package project.app.polstory.config;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import project.app.polstory.auth.PrincipalDetailsService;
+import project.app.polstory.config.oauth.PrincipalOauth2UserService;
 import project.app.polstory.security.Role;
 
 @Configuration //빈 등록 (IoC 관리)
@@ -30,6 +32,9 @@ public class WebSecurityConfig {
     @Autowired
     private PrincipalDetailsService principalDetailsService;
 
+    @Autowired
+    private PrincipalOauth2UserService principalOauth2UserService;
+
     @Bean //부여된 권한에 따라서 접근 가능한 URL 설정.
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
@@ -38,17 +43,26 @@ public class WebSecurityConfig {
 
         //권한에 따른 접근
         http.authorizeHttpRequests()
-                .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/guest/**").authenticated()
-                .antMatchers("/user/**").hasAnyRole(Role.USER.getAuthority(),Role.ADMIN.getAuthority())
-                .antMatchers("/admin/**").hasRole(Role.ADMIN.getAuthority())
-                .antMatchers("/**").permitAll()
-              .and()
-        //로그인 페이지 설정
+                .antMatchers("/guest/**").authenticated() //인증만 되면 들어갈 수 있는 주소
+                .antMatchers("/user/**").hasAnyRole(Role.USER.getAuthority(),Role.ADMIN.getAuthority()) //user , admin 계정인 경우 들어갈 수 있는 주소
+                .antMatchers("/admin/**").hasRole(Role.ADMIN.getAuthority()) //admin만 들어갈 수 있는 주소
+                .antMatchers("/**").permitAll(); // 나머지 주소는 일단 모두 들어갈 수 있게함
+        //구글 로그인
+        //1.코드 받기(인증) , 2.엑세스 토큰(권한 - 사용자 정보에 접근할 권한),
+        //3.사용자 프로필 정보를 가져온다. 4-1.그 정보를 토대로 회원가입을 진행
+        //4-2. 정보가 모자란 경우 추가 정보를 받아서 회원가입.
+        http
+                .oauth2Login()
+                .loginPage("/loginForm")//구글 로그인이 완료된 뒤의 후 처리가 필요함 tip. 코드X,(엑세스 토큰 + 사용자 프로필 정보O)
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService);
+        //form login
+        http
                 .formLogin()
                 .loginPage("/loginForm")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/");
+                .defaultSuccessUrl("/")
+                .failureForwardUrl("/");
 
         return http.build();
     }

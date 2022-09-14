@@ -19,6 +19,8 @@ public class UserDTO {
     private String password;
     private String nickname;
     private String email;
+    private String provider;
+    private String providerId;
     @ToString.Exclude
     private List<Board> board;
     @ToString.Exclude
