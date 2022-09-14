@@ -3,9 +3,8 @@ package project.app.polstory.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import project.app.polstory.auth.PrincipalDetails;
+import project.app.polstory.config.auth.PrincipalDetails;
 import project.app.polstory.dto.BoardDTO;
 import project.app.polstory.dto.PageRequestDTO;
 import project.app.polstory.dto.PageResultDTO;
@@ -41,5 +40,13 @@ public class TestController {
         System.out.println(userDetails.getUser());
         return "세션 저장 확인하기";
     }
+
+    @GetMapping(value = "/test/user")
+    public @ResponseBody String user(
+            @AuthenticationPrincipal PrincipalDetails principalDetails){
+        System.out.println("principalDetails : " + principalDetails.getUser());
+        return "user";
+    }
+
 
 }

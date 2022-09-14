@@ -7,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-public class CategoryDTO {
+public class ImageDTO {
+
 
 }

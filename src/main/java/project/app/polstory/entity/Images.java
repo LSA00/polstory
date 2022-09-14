@@ -8,17 +8,17 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Table(name = "files")
+@Table(name = "images")
 @NoArgsConstructor
-@SequenceGenerator(name = "FILE_IDX_GENERATOR" , sequenceName = "FILE_IDX" , allocationSize = 1)
-public class Files extends BaseEntity{
+@SequenceGenerator(name = "IMAGE_IDX_GENERATOR" , sequenceName = "IMAGE_IDX" , allocationSize = 1)
+public class Images extends BaseEntity{
 
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "FILE_IDX_GENERATOR"
     )
-    private long fileId;
+    private long imageId;
     private String orgName;
     private String stdName;
     private boolean del;
@@ -28,7 +28,7 @@ public class Files extends BaseEntity{
     private Board board;
 
     @Builder
-    public Files(String orgName, String stdName, boolean del) {
+    public Images(String orgName, String stdName, boolean del) {
         this.orgName = orgName;
         this.stdName = stdName;
         this.del = del;

@@ -72,7 +72,6 @@ public class Board extends BaseEntity{
         this.tags = tags;
         this.title = title;
         this.user = user;
-        this.boardId = boardId;
     }
 
 }

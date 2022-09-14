@@ -1,13 +1,11 @@
 package project.app.polstory.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import project.app.polstory.entity.Category;
 import project.app.polstory.entity.User;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @Builder
 @ToString

@@ -1,20 +1,17 @@
 package project.app.polstory.config;
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import project.app.polstory.auth.PrincipalDetailsService;
+import project.app.polstory.config.auth.PrincipalDetailsService;
 import project.app.polstory.config.oauth.PrincipalOauth2UserService;
 import project.app.polstory.security.Role;
 
@@ -24,13 +21,12 @@ import project.app.polstory.security.Role;
 public class WebSecurityConfig {
 
     //해당 메서드의 리턴되는 오브젝트를 IoC로 등록해준다.
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 
     @Autowired
     private PrincipalDetailsService principalDetailsService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private PrincipalOauth2UserService principalOauth2UserService;
@@ -78,7 +74,7 @@ public class WebSecurityConfig {
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(principalDetailsService)
-                .passwordEncoder(passwordEncoder())
+                .passwordEncoder(passwordEncoder)
                 .and()
                 .build();
     }

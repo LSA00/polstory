@@ -1,5 +1,6 @@
 package project.app.polstory.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,5 +28,9 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Board> board;
 
-
+    @Builder
+    public Category(String title, User user) {
+        this.title = title;
+        this.user = user;
+    }
 }

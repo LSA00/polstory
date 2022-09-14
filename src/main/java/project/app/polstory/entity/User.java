@@ -28,7 +28,7 @@ public class User extends BaseEntity{
     //@ColumnDefault("'ROLE_GUEST'")
     @Enumerated(EnumType.STRING)
     private Role role; // 권한부여
-    @Column(length = 20 , unique = true) //unique = true 속성으로 값이 중복되지 못하게함
+    @Column(length = 50 , unique = true) //unique = true 속성으로 값이 중복되지 못하게함
     @NotNull
     private String username; //아이디
     @Column(length = 100)
