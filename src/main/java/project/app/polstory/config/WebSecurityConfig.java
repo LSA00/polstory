@@ -65,7 +65,7 @@ public class WebSecurityConfig {
 
     //이미지나 CSS , js 파일등 권한 없이도 사용해야하는 요소들을 권한 없이 접근 할 수 있게 해준다.
     @Bean
-    public WebSecurityCustomizer WebSecurityCustomizer () throws Exception {
+    public WebSecurityCustomizer WebSecurityCustomizer () {
         //권한 없이 접근 가능한 파일 설정
         return (web) -> web.ignoring().antMatchers("/static/js/**","/static/css/**","/static/img/**");
     }

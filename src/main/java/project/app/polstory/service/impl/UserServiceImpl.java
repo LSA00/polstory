@@ -30,9 +30,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserDTO findUser(Long id){
-       User user = userRepository.findById(id).orElseThrow(()->{
-           return new IllegalArgumentException("아이디가 없습니다." + id);
-       });
+       User user = userRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("아이디가 없습니다." + id));
 
        return entityToDto(user);
     }
