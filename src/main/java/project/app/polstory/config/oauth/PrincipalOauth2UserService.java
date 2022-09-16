@@ -22,9 +22,6 @@ import java.util.Map;
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private UserRepository userRepository;
 
     //구글로 부터 받은 userRequest 데이터에 대한 후처리 되는 함수
@@ -53,7 +50,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String provider = oAuth2UserInfo.getProvider();
         String providerId = oAuth2UserInfo.getProviderId();
         String username = provider+"_"+providerId;
-        String password = passwordEncoder.encode("임시 비밀번호");
         String email = oAuth2UserInfo.getEmail();
         String nickname = oAuth2UserInfo.getName();
         Role role = Role.USER;
@@ -68,7 +64,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .nickname(nickname)
                     .username(username)
                     .provider(provider)
-                    .password(password)
                     .build();
             userRepository.save(user);
         }

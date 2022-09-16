@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import project.app.polstory.config.auth.PrincipalDetailsService;
@@ -21,21 +22,27 @@ import project.app.polstory.security.Role;
 public class WebSecurityConfig {
 
     //해당 메서드의 리턴되는 오브젝트를 IoC로 등록해준다.
-
     @Autowired
     private PrincipalDetailsService principalDetailsService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private PrincipalOauth2UserService principalOauth2UserService;
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean //부여된 권한에 따라서 접근 가능한 URL 설정.
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
         //csrf 설정 끄기
         http.csrf().disable();
+
+        http.cors();
+
+        //jwt는,, 어떻게 할지 고민 해보기
+        //http.addFilter(new JwtAuthenticationFilter(authManager(http)));
 
         //권한에 따른 접근
         http.authorizeHttpRequests()
@@ -57,8 +64,7 @@ public class WebSecurityConfig {
                 .formLogin()
                 .loginPage("/loginForm")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/")
-                .failureForwardUrl("/");
+                .defaultSuccessUrl("/");
 
         return http.build();
     }
@@ -74,7 +80,7 @@ public class WebSecurityConfig {
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(principalDetailsService)
-                .passwordEncoder(passwordEncoder)
+                .passwordEncoder(passwordEncoder())
                 .and()
                 .build();
     }

@@ -28,13 +28,12 @@ public class User extends BaseEntity{
     //@ColumnDefault("'ROLE_GUEST'")
     @Enumerated(EnumType.STRING)
     private Role role; // 권한부여
-    @Column(length = 50 , unique = true) //unique = true 속성으로 값이 중복되지 못하게함
+    @Column(length = 50 , unique = true , nullable = false) //unique = true 속성으로 값이 중복되지 못하게함
     @NotNull
     private String username; //아이디
-    @Column(length = 100)
-    @NotNull
+    @Column(length = 100 , nullable = false)
     private String password; //비밀번호
-    @NotNull
+    @Column(nullable = false)
     private String email; //이메일
     private String nickname; //등록 할 수 있는 닉네임
     private String provider;

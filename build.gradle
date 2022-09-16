@@ -55,6 +55,9 @@ dependencies {
 	implementation 'com.oracle.database.security:osdt_cert'
 	implementation 'com.oracle.database.security:osdt_core'
 
+	//jwt
+	implementation 'com.auth0:java-jwt'
+
 }
 
 tasks.named('test') {

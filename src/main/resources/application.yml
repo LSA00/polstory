@@ -1,5 +1,5 @@
 spring:
-  #thymeleaf 경로 설정
+  #thymeleaf 설정
   thymeleaf:
     characterEncoding: utf-8
     order: '0'
@@ -13,7 +13,7 @@ spring:
     password: Pol20222022
     username: polstory
     url: jdbc:oracle:thin:@BasicKim?TNS_ADMIN=./src/main/resources/wallet
-
+#security oauth 설정
   security:
     oauth2:
       client:
@@ -25,7 +25,6 @@ spring:
             scope:
             - email
             - profile
-
 
           naver:
             client-id: ATUE2EOZNDz_vQqBjQu0

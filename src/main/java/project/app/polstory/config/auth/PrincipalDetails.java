@@ -28,7 +28,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     public PrincipalDetails(User user, Map<String,Object> attributes){
         this.user = user;
-        this.attributes =attributes;
+        this.attributes = attributes;
     }
 
     @Override //계정의 권한을 리턴

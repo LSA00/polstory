@@ -22,8 +22,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     //함수 종료시 @AuthenticationPrincipal 어노테이션이 만들어진다.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User principal = userRepository.findByUsername(username)
-                .orElseThrow(()-> new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다. : " + username));
+        User principal = userRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("유저 정보가 없습니다. :" + username));
         return new PrincipalDetails(principal); //시큐리티 세션에 유저 정보가 저장됨.
     }
 }
