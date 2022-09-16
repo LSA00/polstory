@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import project.app.polstory.config.auth.PrincipalDetailsService;
 import project.app.polstory.config.oauth.PrincipalOauth2UserService;
+import project.app.polstory.repository.UserRepository;
 import project.app.polstory.security.Role;
 
 @Configuration //빈 등록 (IoC 관리)
@@ -28,6 +29,9 @@ public class WebSecurityConfig {
     @Autowired
     private PrincipalOauth2UserService principalOauth2UserService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -41,8 +45,10 @@ public class WebSecurityConfig {
 
         http.cors();
 
-        //jwt는,, 어떻게 할지 고민 해보기
-        //http.addFilter(new JwtAuthenticationFilter(authManager(http)));
+//        jwt는,, 어떻게 할지 고민 해보기
+//        http
+//                .addFilter(new JwtAuthenticationFilter(authenticationManager))
+//                .addFilter(new JwtAuthorizationFilter(authenticationManager,userRepository));
 
         //권한에 따른 접근
         http.authorizeHttpRequests()
